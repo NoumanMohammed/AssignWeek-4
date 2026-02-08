@@ -9,9 +9,6 @@ import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 
-# ============================================================================
-# COMMIT: Loaded and preprocessed MNIST dataset
-# ============================================================================
 
 # Define transformations: convert to tensor and normalize
 transform = transforms.Compose([
@@ -54,49 +51,3 @@ plt.title(f"Sample Image - Label {label}")
 plt.axis("off")
 plt.savefig('mnist_sample.png')
 print(f"Sample image saved. Label: {label}")
-
-# ============================================================================
-# COMMIT: Implemented FCNN for MNIST classification
-# ============================================================================
-
-# Define a simple fully connected network
-class FCNN(nn.Module):
-    def __init__(self):
-        super(FCNN, self).__init__()
-        self.fc1 = nn.Linear(28 * 28, 128)  # Input: 784, Hidden: 128
-        self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(128, 10)  # Output: 10 classes
-
-    def forward(self, x):
-        x = x.view(-1, 28 * 28)  # Flatten the image
-        x = self.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
-
-# Initialize model, loss function, and optimizer
-model = FCNN()
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-
-# Training loop
-print("\nTraining FCNN on MNIST...")
-for epoch in range(5):
-    running_loss = 0.0
-    for images, labels in train_loader:
-        # Zero gradients
-        optimizer.zero_grad()
-        
-        # Forward pass
-        outputs = model(images)
-        loss = criterion(outputs, labels)
-        
-        # Backward pass and optimize
-        loss.backward()
-        optimizer.step()
-        
-        running_loss += loss.item()
-    
-    avg_loss = running_loss / len(train_loader)
-    print(f"Epoch {epoch+1}/5, Loss: {avg_loss:.4f}")
-
-print("Training complete!")
