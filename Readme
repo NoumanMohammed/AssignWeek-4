@@ -1,0 +1,23 @@
+# Neural Networks for Vision Tasks
+
+## Setup
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## How to Run
+
+Run each script individually:
+
+```bash
+# Autograd exploration
+python autograd_exploration.py
+
+# MNIST classification with FCNN
+python fcnn_mnist.py
+
+# CIFAR-10 classification with CNN
+python cnn_cifar10.py
+```
